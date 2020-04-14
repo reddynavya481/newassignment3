@@ -1,0 +1,30 @@
+.LogoutBtn{
+    position: fixed;
+    width: 100px;
+    height: 36px;
+    right: 36px;
+    top: 36px; 
+    border-radius: 2px;
+    margin-left: 1050px
+}
+.box{
+    box-sizing: border-box;
+    border-color: black
+}
+.block-example {
+    width: 6rem;
+    height: 2rem;
+    background-color: #eee;
+    display: inline-block;
+}
+.player-wrapper {
+    position: relative;
+    padding-top: 52.25% ;/* Player ratio: 100 / (1280 / 720) */
+    padding-left: 100px;
+  }
+  
+  .react-player {
+    position: absolute;
+    top: 0;
+    left: 10;
+  }
