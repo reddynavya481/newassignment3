@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 // import { connect } from 'react-redux';
-import { Button, Modal, Input,Card,Menu } from 'antd'
+import { Button, Modal, Input,Card,Menu,Checkbox } from 'antd'
 import 'antd/dist/antd.css';
 import { Redirect,BrowserRouter,Link,Switch,Route} from 'react-router-dom'
 import jwt from 'jsonwebtoken';
 import axios from 'axios'
-import './Dashboard.css'
+import './Dashboard.css';
+import Splayer from './Splayer'
 import ReactPlayer from 'react-player'
 const { SubMenu } = Menu;
 
@@ -31,6 +32,14 @@ class Scontent extends Component{
     togglehad=(val)=>{
         this.setState({player:true})
         this.setState({contenturl:val})
+        this.setState({toggle:false})
+    }
+
+    togg =()=>{
+        this.setState({player:false})
+    }
+    onChange=(e)=>{
+        console.log(e.target.checked)
     }
     // sendData=(val)=>{
     //     this.props.callbackPar(val)
@@ -42,7 +51,7 @@ class Scontent extends Component{
         if(this.state.content){
         arr = this.state.content.map((item,index) => {
             //return  <div><Button style={{height:70 ,width:700,marginRight:800}}  onClick={()=>this.togglehad(item.contenturl)} >{index+1}.{item.contentname}</Button><br/></div>
-            return  <div><Menu.Item onClick={()=>this.togglehad(item.contenturl)} >{index+1}.{item.contentname}</Menu.Item><br/></div>
+            return  <div><Menu.Item style={{marginBottom:40}} onClick={()=>this.togglehad(item.contenturl)} >{index+1}.{item.contentname}<Checkbox onChange={this.onChange}/></Menu.Item><br/><br/><br/></div>
         }
         )
     }
@@ -52,19 +61,26 @@ class Scontent extends Component{
             <div>
               {!this.state.toggle?
               <div>{arr}</div>:null}
-              {this.state.player?
-              <div><div className="player-wrapper"><ReactPlayer 
-              className="react-player"
+              {/* {this.state.player?
+              <div> */}
+              {/* <Splayer urli={this.state.contenturl}/></div>:null} */}
+              
+               {this.state.player? 
+               <div><div className={"player-wrapper"}><ReactPlayer  
+               className="react-player"
               url={this.state.contenturl}
-              width="50%"
-              height="50%"
+              width="200%"
+              height="200%"
               controls={true}
-              onProgress={this.handleProgress}
-              /></div><div>{this.state.watch}</div></div>:null}
+              onProgress={this.handleProgress} autoplay={true}
+              /></div></div>
+            
+            :null} 
             </div> 
-                :null
-            }
+                :null}
+            
             </div>
+            
 
     )
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { Button, Modal, Input, Row, Col, Card,Popover} from 'antd'
-import { UserOutlined ,EditOutlined,LogoutOutlined} from '@ant-design/icons';
+import { UserOutlined ,EditOutlined,LogoutOutlined,DeleteOutlined} from '@ant-design/icons';
 import Atopics from './Atopics'
 import axios from 'axios'
 import { NotificationContainer, NotificationManager } from 'react-notifications';
@@ -38,6 +38,11 @@ class Dashboard extends Component {
                 console.log(err)
             })
     }
+    shouldComponentUpdate(nextState){
+        const per2=this.state.coursename!==nextState.coursename
+        
+        return per2
+    }
     componentDidUpdate() {
         const token = localStorage.getItem("token")
         let self = this
@@ -62,11 +67,12 @@ class Dashboard extends Component {
             visible: true,
         });
     };
-    showEditModal = (val) => {
+    showEditModal = (val,val1,val2,val3) => {
         this.setState({
             editable: true,
             id:val
         });
+        this.setState({coursename:val1,authorname:val2,description:val3})
         console.log(this.state.id+' '+val)
     };
     handleedit=()=>{
@@ -84,13 +90,16 @@ class Dashboard extends Component {
             authorname: this.state.authorname,
             description: this.state.description
         }).then(function (response) {
-            console.log(response);
+            // console.log(response);
             NotificationManager.success('course Edited!')
         })
             .catch(err => {
-                console.log(err)
+                // console.log(err)
                 NotificationManager.error('Try again')
             })
+            this.setState({coursename:''})
+            this.setState({authorname:''})
+            this.setState({description:''})
     }
     handleOk = () => {
         this.setState({
@@ -111,18 +120,21 @@ class Dashboard extends Component {
             NotificationManager.success('New course Added!')
         })
             .catch(err => {
-                console.log(err)
+                // console.log(err)
                 NotificationManager.error('Try again')
             })
+            this.setState({coursename:''})
+            this.setState({authorname:''})
+            this.setState({description:''})
     };
     handleCancel = () => {
-        console.log('Clicked cancel button');
+        // console.log('Clicked cancel button');
         this.setState({
             visible: false,
         });
     };
     handleCancelEdit = () => {
-        console.log('Clicked cancel button');
+        // console.log('Clicked cancel button');
         this.setState({
             editable: false,
         });
@@ -136,6 +148,9 @@ class Dashboard extends Component {
     description = (e) => {
         this.setState({ description: e.target.value })
     }
+    deleteCard=(val)=>{
+        axios.delete("http://localhost:8000/delete/"+val)
+    }
     render() {
         return (
             <div>
@@ -143,7 +158,7 @@ class Dashboard extends Component {
                     <UserOutlined style={{ fontSize: '26px' ,marginLeft: '1100px'}} />
                     <h2 style={{  marginLeft: '1150px' }}>Hi {this.props.username}</h2>
                     <Popover content={"logout ?"}>
-                    <Button onClick={this.props.onLogout} style={{ marginLeft: '1100px' }} icon={<LogoutOutlined />}></Button>
+                    <LogoutOutlined onClick={this.props.onLogout} style={{ marginLeft: '1100px' }}/>
                     </Popover>
                 </div>
                 
@@ -169,11 +184,11 @@ class Dashboard extends Component {
                     onCancel={this.handleCancelEdit}
                 >
                     <label>change course name</label>
-                    <Input type="text" onChange={this.courseName} />
+                    <Input type="text" onChange={this.courseName} value={this.state.coursename}/>
                     <label>change author name</label>
-                    <Input type="text" onChange={this.authorName} />
+                    <Input type="text" onChange={this.authorName} value={this.state.authorname}/>
                     <label>change description</label>
-                    <TextArea rows={4} onChange={this.description} />
+                    <TextArea rows={4} onChange={this.description} value={this.state.description}/>
                 </Modal>
                 {!this.state.toggle ?
                     <div>
@@ -185,10 +200,10 @@ class Dashboard extends Component {
                                     {this.state.display.map(item =>
                                         <Col span={6}>
                                             <Card style={{ marginRight: 10, width: 300,marginBottom:5 }} extra={<Button onClick={() => this.clickHandler(item.coursename)}>Register</Button>} actions={[
-                                            <EditOutlined key="edit" onClick={()=>this.showEditModal(item.id)}/>]}>
+                                            <EditOutlined key="edit" onClick={()=>this.showEditModal(item.id,item.coursename,item.authorname,item.description)}/>,<Popover content={"delete?"}><DeleteOutlined onClick={()=>this.deleteCard(item.coursename)}/></Popover>]}>
                                                 <Meta
                                                     title={item.coursename}
-                                                    description={`By ` + `${item.authorname}` + '\n ' + `${item.description}`}
+                                                    description={`By ` + `${item.authorname}` + ' '+' ' + `${item.description}`}
                                                 />
                                             </Card>
                                         </Col>)}

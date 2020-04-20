@@ -4,7 +4,8 @@ password:'',
 typ:'user',
 coursename:'',
 login:false,
-player:false
+player:false,
+urli:"https://www.youtube.com/watch?v=Bv_5Zv5c-Ts"
 }
 export default (state = initialState, action) => {
     switch (action.type) {
@@ -18,6 +19,11 @@ export default (state = initialState, action) => {
         //     ...state,
         //     coursename:action.payload
         // }
+        case 'SETURL':
+        return{
+            ...state,
+            urli:action.payload
+        }
         case 'SET_PASSWORD':
         return{
             ...state,

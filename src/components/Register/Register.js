@@ -13,7 +13,9 @@ class Register extends Component {
     login = false
     state = {
         typ: 'user',
-        login: false
+        login: false,
+        cp:false,
+        pass:''
     }
     toggleUser = () => {
         this.setState({ typ: 'admin' })
@@ -24,6 +26,15 @@ class Register extends Component {
         this.props.handleUser(this.state.typ)
     }
     onRegister = () => {
+        if(!this.state.cp)
+        this.setState({cp:true})
+        else{
+            if(this.props.password!==this.state.pass){
+            this.login = false
+            this.setState({login:false})
+            NotificationManager.error('password did not matched')}
+            else{
+        
         this.props.handleUser(this.state.typ)
         let url
         console.log(this.props.typ + " " + this.state.typ)
@@ -55,6 +66,10 @@ class Register extends Component {
             alert('No username or password', 'Click me!', 3000);
         }
     }
+    }}
+    handleCnPassword=(e)=>{
+        this.setState({pass:e.target.value})
+    }
     onLogin = () => {
         this.props.handleUser(this.state.typ)
         let self = this
@@ -85,7 +100,7 @@ class Register extends Component {
             //here sdashboard is for students whereas dashboard is given for admins
             <div align="center" >
             <Helmet>
-                <style>{'body { background-color: grey; }'}</style>
+                <style>{'body { background-color: #F5FCFF; }'}</style>
             </Helmet>
                 {this.state.login && this.props.username!=''&& this.props.password!=''?
                     <div>
@@ -100,10 +115,12 @@ class Register extends Component {
                     //here both admin and user can login ,user can perform login,register but admin can only login
                     <div>
                         <h1>WAL Course Library</h1>
-                        {this.state.typ === 'user' ? <h2>User Login</h2> : <h2>Admin Login</h2>}
+                        {this.state.typ === 'user' ? this.state.cp?<h2>User Registration</h2>:<h2>User Login</h2> : <h2>Admin Login</h2>}
                         <Input type="text" placeholder="enter username" size="large" prefix={<UserOutlined />} onChange={(e) => this.props.handleUserName(e.target.value)} style={{ width: '30%' }} value={this.props.username} /><br/>
                         <br/>
                         <Input.Password type="text" placeholder="enter password" size="large" onChange={(e) => this.props.handlePassword(e.target.value)} style={{ width: '30%' }} value={this.props.password} /><br/>
+                        <br/>
+                        {this.state.cp?<Input.Password type="text" placeholder="confirm password" size="large" onChange={(e) => this.handleCnPassword(e)} style={{ width: '30%' }} value={this.state.pass} />:null}
                         <br/>
                         {this.state.typ == 'user' ?
                             <div>

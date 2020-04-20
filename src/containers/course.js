@@ -12,13 +12,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // get handleCourseName(){
-        //     return (value)=>
-        //     dispatch({
-        //         type:'SET_COURSENAME',
-        //         payload:value
-        //     })
-        // },
         get handleUserName(){
             return (value)=>
                 dispatch({

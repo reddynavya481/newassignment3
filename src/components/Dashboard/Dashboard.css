@@ -19,12 +19,24 @@
 }
 .player-wrapper {
     position: relative;
-    padding-top: 52.25% ;/* Player ratio: 100 / (1280 / 720) */
-    padding-left: 100px;
+    padding-top: 56.25% /* Player ratio: 100 / (1280 / 720) */
   }
-  
+  .new{
+      display:none;
+  }
+  #top-menu .sub-menu  {
+    /* font-weight: bold; */
+    font-size: 20px;
+}
   .react-player {
     position: absolute;
     top: 0;
+    margin-left: 450px;
     left: 10;
+  }
+  .default{
+      position: absolute;
+      top:220px;
+      margin-left:450px;
+      margin-bottom: 100px
   }

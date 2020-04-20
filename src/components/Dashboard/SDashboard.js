@@ -40,11 +40,11 @@ class SDashboard extends Component {
         return (
             <div>
                 <div>
-                    <h1>Explore our Courses </h1>
-                    <UserOutlined style={{ fontSize: '26px' ,marginLeft: '1100px'}} />
-                    <h2 style={{  marginLeft: '1150px' }}>Hi {this.props.username}</h2>
+                    <span><h1>Explore our Courses </h1></span>
+                    <span><UserOutlined style={{ fontSize: '26px' ,marginRight: '1100px'}} /></span>
+                    <span><h2 style={{  marginRight: '1100px' }}>Hi {this.props.username}</h2></span>
                     <Popover content={"logout ?"}>
-                    <Button onClick={this.props.onLogout} style={{ marginLeft: '1100px' }} icon={<LogoutOutlined />}></Button>
+                    <Button onClick={this.props.onLogout} style={{ marginLeft: '1100px',marginBottom:'10px' }} icon={<LogoutOutlined />}></Button>
                     </Popover>
                 </div>
                 {!this.state.toggle ?
@@ -54,7 +54,7 @@ class SDashboard extends Component {
                                     <Row gutter={16}>
                                         {this.state.display.map(item =>
                                             <Col span={6}>
-                                                <Card style={{ marginRight: 13, width: 300 ,marginBottom:5}} extra={<Button onClick={() => this.clickHandler(item.coursename)}>Register</Button>}>
+                                                <Card style={{ marginRight: 13, width: 300 ,marginBottom:8}} extra={<Button onClick={() => this.clickHandler(item.coursename)}>Register</Button>}>
                                                     <Meta
                                                         title={item.coursename}
                                                         description={`By ` + `${item.authorname}` + '\n ' + `${item.description}`}
