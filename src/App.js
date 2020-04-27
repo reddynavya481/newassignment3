@@ -6,10 +6,7 @@ import {
   Route,
   Redirect
 } from 'react-router-dom';
-// import { localStorageGetItem, localStorageSetItem } from './services/utils';
 import Register from './components/Register/Register'
-import Register from './components/Dashboard/Dashboard'
-import Register from './components/Dashboard/Stopics'
 class App extends Component {
     render(){
       return (

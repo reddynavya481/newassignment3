@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { Input, Button } from 'antd'
 import 'antd/dist/antd.css';
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Redirect, BrowserRouter, Link, Switch, Route } from 'react-router-dom'
 import axios from 'axios'
-import {Helmet} from 'react-helmet';
+import { Radio } from 'antd';
+import { Card, Form } from 'antd';
+import { Helmet } from 'react-helmet';
 import Dashboard from '../Dashboard/Dashboard'
 import SDashboard from '../Dashboard/SDashboard'
 import { NotificationContainer, NotificationManager } from 'react-notifications';
@@ -14,8 +16,14 @@ class Register extends Component {
     state = {
         typ: 'user',
         login: false,
-        cp:false,
-        pass:''
+        cp: false,
+        pass: ''
+    }
+    onChange = (e) => {
+        if (e.target.value == "u")
+            this.setState({ typ: 'user' })
+        else
+            this.setState({ typ: 'admin' })
     }
     toggleUser = () => {
         this.setState({ typ: 'admin' })
@@ -26,51 +34,57 @@ class Register extends Component {
         this.props.handleUser(this.state.typ)
     }
     onRegister = () => {
-        if(!this.state.cp)
-        this.setState({cp:true})
-        else{
-            if(this.props.password!==this.state.pass){
-            this.login = false
-            this.setState({login:false})
-            NotificationManager.error('password did not matched')}
-            else{
-        
-        this.props.handleUser(this.state.typ)
-        let url
-        console.log(this.props.typ + " " + this.state.typ)
-        if (this.state.typ === 'user') {
-            url = 'http://localhost:8000/registeruser'
-        }
-        console.log(url)
-        if (this.props.password === "" && this.props.username === "") {
-            this.login = false
-            NotificationManager.warning('Enter Credentials', '', 500);
-            this.setState({login:false})
-        }
-        else if (this.props.password !== "" && this.props.username !== "") {
-            axios.post(url, {
-                username: this.props.username,
-                password: this.props.password,
-                typ: this.props.typ
-            }).then(function (response) {
-                console.log(response);
-                NotificationManager.success('New account created!')
-            })
-                .catch(err => {
-                    console.log(err)
-                    this.setState({ username: '', password: '' })
-                    NotificationManager.error('Username already exists!,Try to Login')
-                })
-        }
+        if (!this.state.cp)
+            this.setState({ cp: true })
         else {
-            alert('No username or password', 'Click me!', 3000);
+            if (this.props.password !== this.state.pass) {
+                this.login = false
+                this.setState({ login: false })
+                NotificationManager.error('passwords did not matched')
+            }
+            else {
+
+                this.props.handleUser(this.state.typ)
+                let url
+                console.log(this.props.typ + " " + this.state.typ)
+                if (this.state.typ === 'user') {
+                    url = 'http://localhost:8000/registeruser'
+                }
+                console.log(url)
+                if (this.props.password === "" && this.props.username === "") {
+                    this.login = false
+                    NotificationManager.warning('Enter Credentials', '', 500);
+                    this.setState({ login: false })
+                }
+                else if (this.props.password !== "" && this.props.username !== "") {
+                    axios.post(url, {
+                        username: this.props.username,
+                        password: this.props.password,
+                        typ: this.props.typ
+                    }).then(function (response) {
+                        console.log(response);
+                        NotificationManager.success('New account created!')
+                    })
+                        .catch(err => {
+                            console.log(err)
+                            this.setState({ username: '', password: '' })
+                            NotificationManager.error('Username already exists!,Try to Login')
+                        })
+                }
+                else {
+                    alert('No username or password', 'Click me!', 3000);
+                }
+            }
         }
     }
-    }}
-    handleCnPassword=(e)=>{
-        this.setState({pass:e.target.value})
+    handleCnPassword = (e) => {
+        this.setState({ pass: e.target.value })
     }
     onLogin = () => {
+        this.setState({
+            cp: false
+        }
+        )
         this.props.handleUser(this.state.typ)
         let self = this
         let lurl
@@ -88,54 +102,87 @@ class Register extends Component {
                 console.log(response);
                 localStorage.setItem("token", response.data.token)
                 self.setState({ login: true })
+                self.login = true
                 NotificationManager.success('login successful!')
             }).catch(err => {
                 console.log(err)
-                NotificationManager.error('Username or password Incorrect');
+
             })
+        this.setState({ pass: '' })
+    }
+    handleLogout = () => {
+        this.props.onLogout()
+        this.login = false
+        this.setState({ login: false })
     }
 
     render() {
         return (
             //here sdashboard is for students whereas dashboard is given for admins
             <div align="center" >
-            <Helmet>
-                <style>{'body { background-color: #F5FCFF; }'}</style>
-            </Helmet>
-                {this.state.login && this.props.username!=''&& this.props.password!=''?
+                <Helmet>
+                    <style>{'body { background-color: #F5FCFF; }'}</style>
+                </Helmet>
+                {this.state.login && this.props.username != '' && this.props.password != '' ?
                     <div>
                         {this.state.typ === 'user' ?
                             <Redirect to='/sdashboard' />
                             : <Redirect to='/dashboard' />}
                         <Switch>
-                            <Route path='/sdashboard'><SDashboard /></Route>
-                            <Route path='/dashboard'><Dashboard /></Route>
+                            <Route path='/sdashboard'><SDashboard logout={this.handleLogout} /></Route>
+                            <Route path='/dashboard'><Dashboard logout={this.handleLogout} /></Route>
                         </Switch></div>
                     :
                     //here both admin and user can login ,user can perform login,register but admin can only login
                     <div>
                         <h1>WAL Course Library</h1>
-                        {this.state.typ === 'user' ? this.state.cp?<h2>User Registration</h2>:<h2>User Login</h2> : <h2>Admin Login</h2>}
-                        <Input type="text" placeholder="enter username" size="large" prefix={<UserOutlined />} onChange={(e) => this.props.handleUserName(e.target.value)} style={{ width: '30%' }} value={this.props.username} /><br/>
-                        <br/>
-                        <Input.Password type="text" placeholder="enter password" size="large" onChange={(e) => this.props.handlePassword(e.target.value)} style={{ width: '30%' }} value={this.props.password} /><br/>
-                        <br/>
-                        {this.state.cp?<Input.Password type="text" placeholder="confirm password" size="large" onChange={(e) => this.handleCnPassword(e)} style={{ width: '30%' }} value={this.state.pass} />:null}
-                        <br/>
+                        <h2>Choose Account Type</h2>
+                        <Radio.Group onChange={this.onChange} defaultValue="u" size="large" style={{ marginRight: 10 ,height:50}}>
+                            <Radio.Button value="a">
+                                <UserOutlined />Admin
+                        </Radio.Button>
+                            <Radio.Button value="u">
+                                <UserOutlined />User
+                        </Radio.Button></Radio.Group><br /><br />
+                        {this.state.typ === 'user' ? this.state.cp ? <p>Hello user!<br /> register yourself to continue  </p> : <p>Hello user!<br /> please fill out credentials</p> : <p>Hello admin!<br />please fill out credentials</p>}
+                        <br />
+                      
+                        <br />
                         {this.state.typ == 'user' ?
                             <div>
-                                <Button type="primary" onClick={(e) => this.onLogin(this.state.typ)}>Login</Button>
-                                <Button type="default" onClick={(e) => this.onRegister(this.state.typ)} style={{ marginLeft: '110px', marginBottom:'50px' }}>Don't have an account?Register</Button><br/>
-                                <br/>
-                                <br/>
-                                <Button type="default" onClick={this.toggleUser}>Log in as Admin</Button></div> : <div>
-                                <Button type="primary" onClick={(e) => this.onLogin(this.state.typ)}>Login</Button><br/>
-                                <br/>
-                                <Button type="default" onClick={this.toggleAdmin}>Log in as User</Button></div>
+                                {this.state.cp ?
+                                    <div>
+                                        <div>
+                                            <label>Username: </label>
+                                            <Input type="text" placeholder="enter username" size="large" prefix={<UserOutlined />} onChange={(e) => this.props.handleUserName(e.target.value)} style={{ width: '30%' }} value={this.props.username} /><br /><br />
+                                            <label>Password: </label>
+                                            <Input.Password type="text" placeholder="enter password" size="large" onChange={(e) => this.props.handlePassword(e.target.value)} style={{ width: '30%' }} value={this.props.password} />
+                                            <br />
+                                            <br />
+                                            <Form.Item label="Confirm Password" hasFeedback style={{ width: '39%', marginRight: 69 }} validateStatus={this.props.password !== this.state.pass ? "error" : null} >
+                                                <Input.Password type="text" placeholder="confirm password" size="large" onChange={(e) => this.handleCnPassword(e)} value={this.state.pass} />
+                                            </Form.Item>
+                                        </div>
+                                        <Button type="primary" onClick={(e) => this.onRegister(this.state.typ)} htmlType="submit" style={{ width: 100 }}>Register</Button><br />
+                                        <Link type="default" onClick={(e) => this.onLogin(this.state.typ)} >Have an account?Log in</Link><br /></div> :
+                                    <div><div>
+                                        <Input type="text" placeholder="enter username" size="large" prefix={<UserOutlined />} onChange={(e) => this.props.handleUserName(e.target.value)} style={{ width: '30%' }} value={this.props.username} /><br /><br />
+                                        <Input.Password type="text" placeholder="enter password" size="large" prefix={<LockOutlined />} onChange={(e) => this.props.handlePassword(e.target.value)} style={{ width: '30%' }} value={this.props.password} /></div><br/>
+                                        <Button type="primary" onClick={(e) => this.onLogin(this.state.typ)} htmlType="submit" style={{ width: 100 }}>Log in</Button><br />
+                                        <Link type="default" onClick={(e) => this.onRegister(this.state.typ)} >Don't have an account?Register</Link><br /></div>
+                                }
+                                <br />
+                                <br />
+                            </div> : <div>
+                            <Input type="text" placeholder="enter username" size="large" prefix={<UserOutlined />} onChange={(e) => this.props.handleUserName(e.target.value)} style={{ width: '30%' }} value={this.props.username} /><br /><br />
+                                        <Input.Password type="text" placeholder="enter password" size="large" prefix={<LockOutlined />} onChange={(e) => this.props.handlePassword(e.target.value)} style={{ width: '30%' }} value={this.props.password} /><br/><br/>
+                                <Button type="primary" onClick={(e) => this.onLogin(this.state.typ)}>Login</Button><br />
+                                <br />
+                            </div>
                         }
-                        </div>
+                    </div>
                 }
-                <NotificationContainer/>
+                <NotificationContainer />
             </div>
         )
     }

@@ -116,11 +116,9 @@ class Dashboard extends Component {
             authorname: this.state.authorname,
             description: this.state.description
         }).then(function (response) {
-            // console.log(response);
             NotificationManager.success('New course Added!')
         })
             .catch(err => {
-                // console.log(err)
                 NotificationManager.error('Try again')
             })
             this.setState({coursename:''})
@@ -128,13 +126,11 @@ class Dashboard extends Component {
             this.setState({description:''})
     };
     handleCancel = () => {
-        // console.log('Clicked cancel button');
         this.setState({
             visible: false,
         });
     };
     handleCancelEdit = () => {
-        // console.log('Clicked cancel button');
         this.setState({
             editable: false,
         });
@@ -158,7 +154,7 @@ class Dashboard extends Component {
                     <UserOutlined style={{ fontSize: '26px' ,marginLeft: '1100px'}} />
                     <h2 style={{  marginLeft: '1150px' }}>Hi {this.props.username}</h2>
                     <Popover content={"logout ?"}>
-                    <LogoutOutlined onClick={this.props.onLogout} style={{ marginLeft: '1100px' }}/>
+                    <LogoutOutlined onClick={this.props.logout} style={{ marginLeft: '1100px' }}/>
                     </Popover>
                 </div>
                 
@@ -199,7 +195,7 @@ class Dashboard extends Component {
                                 <Row gutter={16}>
                                     {this.state.display.map(item =>
                                         <Col span={6}>
-                                            <Card style={{ marginRight: 10, width: 300,marginBottom:5 }} extra={<Button onClick={() => this.clickHandler(item.coursename)}>Register</Button>} actions={[
+                                            <Card style={{ marginRight: 10, width: 300,marginBottom:5 }} extra={<Button onClick={() => this.clickHandler(item.coursename)}>Check</Button>} actions={[
                                             <EditOutlined key="edit" onClick={()=>this.showEditModal(item.id,item.coursename,item.authorname,item.description)}/>,<Popover content={"delete?"}><DeleteOutlined onClick={()=>this.deleteCard(item.coursename)}/></Popover>]}>
                                                 <Meta
                                                     title={item.coursename}

@@ -44,7 +44,9 @@ class SDashboard extends Component {
                     <span><UserOutlined style={{ fontSize: '26px' ,marginRight: '1100px'}} /></span>
                     <span><h2 style={{  marginRight: '1100px' }}>Hi {this.props.username}</h2></span>
                     <Popover content={"logout ?"}>
-                    <Button onClick={this.props.onLogout} style={{ marginLeft: '1100px',marginBottom:'10px' }} icon={<LogoutOutlined />}></Button>
+                    <Button onClick={
+                    this.props.logout
+                    } style={{ marginLeft: '1100px',marginBottom:'10px' }} icon={<LogoutOutlined />}></Button>
                     </Popover>
                 </div>
                 {!this.state.toggle ?
@@ -90,13 +92,6 @@ const mapDispatchToProps = (dispatch) => {
                     type: 'SET_LOGOUT'
                 })
         },
-        // get handleCourseName(){
-        //     return (value)=>
-        //     dispatch({
-        //         type:'SET_COURSENAME',
-        //         payload:value
-        //     })
-        // }
     }
 
 }

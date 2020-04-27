@@ -14,16 +14,6 @@ export default (state = initialState, action) => {
             ...state,
             username:action.payload
         }
-        // case 'SET_COURSENAME':
-        // return{
-        //     ...state,
-        //     coursename:action.payload
-        // }
-        case 'SETURL':
-        return{
-            ...state,
-            urli:action.payload
-        }
         case 'SET_PASSWORD':
         return{
             ...state,
@@ -40,13 +30,6 @@ export default (state = initialState, action) => {
             ...state,
             typ:action.payload
             
-        }
-        case 'SET_URL':
-        return{
-            ...state,
-            player:true,
-            courseurl:action.payload
-
         }
         case 'SET_LOGOUT':
         return{

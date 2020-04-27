@@ -10,7 +10,6 @@ import Splayer from './Splayer'
 import ReactPlayer from 'react-player'
 const { SubMenu } = Menu;
 
-// import './responsive-player.css'
 class Scontent extends Component{
     state={
         toggle:false,
@@ -41,16 +40,11 @@ class Scontent extends Component{
     onChange=(e)=>{
         console.log(e.target.checked)
     }
-    // sendData=(val)=>{
-    //     this.props.callbackPar(val)
-    //     console.log('hh')
-    // }
     render()
     {
         let arr
         if(this.state.content){
         arr = this.state.content.map((item,index) => {
-            //return  <div><Button style={{height:70 ,width:700,marginRight:800}}  onClick={()=>this.togglehad(item.contenturl)} >{index+1}.{item.contentname}</Button><br/></div>
             return  <div><Menu.Item style={{marginBottom:40}} onClick={()=>this.togglehad(item.contenturl)} >{index+1}.{item.contentname}<Checkbox onChange={this.onChange}/></Menu.Item><br/><br/><br/></div>
         }
         )
@@ -60,11 +54,7 @@ class Scontent extends Component{
             {this.state.content?
             <div>
               {!this.state.toggle?
-              <div>{arr}</div>:null}
-              {/* {this.state.player?
-              <div> */}
-              {/* <Splayer urli={this.state.contenturl}/></div>:null} */}
-              
+              <div>{arr}</div>:null}   
                {this.state.player? 
                <div><div className={"player-wrapper"}><ReactPlayer  
                className="react-player"
@@ -85,29 +75,4 @@ class Scontent extends Component{
     )
 }
 }
-// const mapStateToProps = (state) => {
-//     return {
-//         contenturl: state.course.contenturl,
-//         player:state.course.player
-//     }
-// }
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         get togglehad() {
-//             return (val) =>
-//                 dispatch({
-//                     type: 'SET_URL',
-//                     payload: val
-//                 })
-//         },
-//         get onPlayer(){
-//             return (val)=>
-//             dispatch({
-//                 type:'SET_PLAYER',
-//                 payload:val
-//             })
-//         }
-//     }
-// }
-// export default connect(mapStateToProps, mapDispatchToProps)(Scontent)
 export default Scontent

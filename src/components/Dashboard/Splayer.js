@@ -18,7 +18,6 @@ import React, { Component } from 'react'
           onProgress={this.handleProgress}
         /></div>
       return (
-        //   !arr.playing?<LoadingOutlined/>:
           arr
       )
     }}

@@ -6,7 +6,6 @@ const mapStateToProps = (state) => {
        username:state.course.username,
        password:state.course.password,
        typ:state.course.typ,
-    //    coursename:state.course.coursename
     }
 }
 
@@ -33,6 +32,12 @@ const mapDispatchToProps = (dispatch) => {
                     payload:value
                 })
             }
+        },
+        get onLogout() {
+            return () =>
+                dispatch({
+                    type: 'SET_LOGOUT'
+                })
         },
         get handlenull(){
             return()=>{
