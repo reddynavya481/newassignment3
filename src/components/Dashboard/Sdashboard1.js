@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Button, Card, Popover } from 'antd'
 import 'antd/dist/antd.css';
 import axios from 'axios'
-import Stopics from '../Topics/Stopics'
+import Stopics from '../Topics/Stopics1'
 import { Row, Col } from 'antd';
 import { UserOutlined, LogoutOutlined } from '@ant-design/icons';
 const { Meta } = Card;

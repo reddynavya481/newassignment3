@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import { Button, Modal, Input, Row, Col, Card, Popover } from 'antd'
 import { UserOutlined, EditOutlined, LogoutOutlined, DeleteOutlined } from '@ant-design/icons';
-import Atopics from '../Topics/Atopics'
+import Atopics from '../Topics/Atopics1'
 import axios from 'axios'
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';

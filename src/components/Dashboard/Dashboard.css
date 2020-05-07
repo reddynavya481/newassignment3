@@ -27,12 +27,12 @@
   #top-menu .sub-menu  {
     font-size: 20px;
 }
-  .react-player {
+  /* .react-player {
     position: absolute;
     top: 0;
     margin-left: 450px;
     left: 10;
-  }
+  } */
   .default{
       position: absolute;
       top:220px;
