@@ -10,7 +10,7 @@ import 'antd/dist/antd.css';
 const { TextArea } = Input
 const { Meta } = Card
 function Adashboard(props) {
-  const [refresh,setRefresh]=useState(false)
+  const [refresh, setRefresh] = useState(false)
   const [visible, setVisible] = useState(false)
   const [confirmLoading, setconfirmLoading] = useState(false)
   const [coursename, setCoursename] = useState('')
@@ -20,36 +20,41 @@ function Adashboard(props) {
   const [display, setDisplay] = useState("")
   const [editable, setEditable] = useState(false)
   const [id, setId] = useState('')
+
   const clickHandler = (val) => {
     setToggle(true)
     setCoursename(val)
   }
+
   const togglehad = () => {
     setToggle(false)
   }
+
   const showModal = () => {
     setVisible(true)
-  };
+  }
+
   const showEditModal = (val, val1, val2, val3) => {
     setEditable(true)
     setId(val)
     setCoursename(val1)
     setAuthorname(val2)
     setDescription(val3)
-  };
+  }
+
   const handleedit = () => {
     setconfirmLoading(true)
     setTimeout(() => {
       setEditable(false)
       setconfirmLoading(false)
-    }, 1000);
+    }, 1000)
     axios.put("http://localhost:8000/course/" + id, {
       coursename: coursename,
       authorname: authorname,
       description: description
     })
       .then(function (response) {
-        setRefresh(refresh=>!refresh)
+        setRefresh(refresh => !refresh)
         NotificationManager.success('course Edited!')
       })
       .catch(err => {
@@ -60,18 +65,19 @@ function Adashboard(props) {
     setAuthorname('')
     setDescription('')
   }
+
   const handleOk = () => {
     setconfirmLoading(true)
     setTimeout(() => {
       setVisible(false)
       setconfirmLoading(false)
-    }, 1000);
+    }, 1000)
     axios.post("http://localhost:8000/course", {
       coursename: coursename,
       authorname: authorname,
       description: description
     }).then(function (response) {
-      setRefresh(refresh=>!refresh)
+      setRefresh(refresh => !refresh)
       NotificationManager.success('New course Added!')
     }).catch(err => {
       NotificationManager.error('Try again')
@@ -79,26 +85,33 @@ function Adashboard(props) {
     setCoursename('')
     setAuthorname('')
     setDescription('')
-  };
+  }
+
   const handleCancel = () => {
     setVisible(false)
-  };
+  }
+
   const handleCancelEdit = () => {
     setEditable(false)
-  };
+  }
+
   const courseName = (e) => {
     setCoursename(e.target.value)
   }
+
   const authorName = (e) => {
     setAuthorname(e.target.value)
   }
+
   const Description = (e) => {
     setDescription(e.target.value)
   }
+
   const deleteCard = (val) => {
     axios.delete("http://localhost:8000/delete/" + val)
-    setRefresh(refresh=>!refresh)
+    setRefresh(refresh => !refresh)
   }
+
   useEffect(() => {
     axios.get('http://localhost:8000/getcourse')
       .then(function (response) {
@@ -162,8 +175,10 @@ function Adashboard(props) {
                       extra={<Button onClick={() => clickHandler(item.coursename)}>Check</Button>}
                       actions={[
                         <EditOutlined key="edit"
-                          onClick={() => showEditModal(item.id, item.coursename, item.authorname, item.description)} />,
-                        <Popover content={"delete?"}><DeleteOutlined onClick={() => deleteCard(item.coursename)} />
+                          onClick={() =>
+                            showEditModal(item.id, item.coursename, item.authorname, item.description)} />,
+                        <Popover content={"delete?"}>
+                          <DeleteOutlined onClick={() => deleteCard(item.coursename)} />
                         </Popover>]}>
                       <Meta
                         title={item.coursename}
@@ -175,7 +190,8 @@ function Adashboard(props) {
             </div> : null}
         </div> :
         <div>
-          <Button onClick={() => togglehad()} style={{ marginRight: '1100px' }}>Back</Button>
+          <Button onClick={() => togglehad()}
+            style={{ marginRight: '1100px' }}>Back</Button>
           <Atopics coursename={coursename} />
         </div>}
       <NotificationContainer />

@@ -123,10 +123,12 @@ function Atopics1(props) {
           <SubMenu
             title={
               <span><Popover content={"add content"}>
-                <PlusOutlined onClick={() => handleButtonClick(item.topicname)} style={{ marginRight: 15 }} />
+                <PlusOutlined onClick={() => handleButtonClick(item.topicname)}
+                  style={{ marginRight: 15 }} />
               </Popover>
                 <DeleteOutlined onClick={() => deleteTopic(item.topicname)} />
-                <EditOutlined onClick={() => editTopicName(item.topicname)} style={{ marginLeft: 10 }} />{index + 1}.{item.topicname}</span>}>
+                <EditOutlined onClick={() => editTopicName(item.topicname)}
+                  style={{ marginLeft: 10 }} />{index + 1}.{item.topicname}</span>}>
             <Acontent contentname={item.topicname} />
           </SubMenu>
         </Menu>
@@ -157,7 +159,8 @@ function Atopics1(props) {
             onCancel={() => handleCancel()}
           >
             <label>edit topic name</label>
-            <Input type="text" onChange={(e) => handleTopicNameU(e)} value={newtopicname} />
+            <Input type="text" onChange={(e) => handleTopicNameU(e)}
+              value={newtopicname} />
           </Modal>
           <Modal
             title="New Content"
@@ -173,9 +176,7 @@ function Atopics1(props) {
           </Modal>
           {display ?
             <div>
-              {/* {!toggle ? */}
               <div>{arr}</div>
-              {/* : null} */}
             </div>
             : null
           }</div>}

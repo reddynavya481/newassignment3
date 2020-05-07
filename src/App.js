@@ -6,18 +6,16 @@ import {
   Route,
   Redirect
 } from 'react-router-dom';
-import Register from './components/Register/Register'
-class App extends Component {
-    render(){
-      return (
-        <div className="App">
-          <Router>
+import Register from './components/Register/Register1'
+function App(){
+    return (
+      <div className="App">
+        <Router>
           <Redirect from="/" to="/register" />
           <Route exact path='/register'><Register /></Route>
-          </Router>
-        </div>
-      );
-    }
-  }
+        </Router>
+      </div>
+    );
+}
 
-  export default App;
+export default App;
