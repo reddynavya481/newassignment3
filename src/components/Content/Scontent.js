@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 // import { connect } from 'react-redux';
-import { Button, Modal, Input,Card,Menu,Checkbox } from 'antd'
+import { Menu,Checkbox } from 'antd'
 import 'antd/dist/antd.css';
-import { Redirect,BrowserRouter,Link,Switch,Route} from 'react-router-dom'
-import jwt from 'jsonwebtoken';
+// import { Redirect,BrowserRouter,Link,Switch,Route} from 'react-router-dom'
+// import jwt from 'jsonwebtoken';
 import axios from 'axios'
-import './Dashboard.css';
-import Splayer from './Splayer'
+import './Content.css';
+// import Splayer from './Splayer'
 import ReactPlayer from 'react-player'
-const { SubMenu } = Menu;
+// const { SubMenu } = Menu;
 
 class Scontent extends Component{
     state={

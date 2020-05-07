@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-  import axios from 'axios'
+//   import axios from 'axios'
   import './Dashboard.css'
   import ReactPlayer from 'react-player'
-  import LoadingOutlined from '@ant-design/icons';
+//   import LoadingOutlined from '@ant-design/icons';
   
   class Splayer extends Component{
       render(){

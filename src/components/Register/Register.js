@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import { Input, Button } from 'antd'
 import 'antd/dist/antd.css';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { Redirect, BrowserRouter, Link, Switch, Route } from 'react-router-dom'
+import { Redirect, Link, Switch, Route } from 'react-router-dom'
 import axios from 'axios'
 import { Radio } from 'antd';
-import { Card, Form } from 'antd';
+import { Form } from 'antd';
 import { Helmet } from 'react-helmet';
-import Dashboard from '../Dashboard/Dashboard'
-import SDashboard from '../Dashboard/SDashboard'
+import Dashboard from '../Dashboard/Adashboard'
+import SDashboard from '../Dashboard/Sdashboard1'
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 class Register extends Component {
@@ -20,7 +20,7 @@ class Register extends Component {
         pass: ''
     }
     onChange = (e) => {
-        if (e.target.value == "u")
+        if (e.target.value === "u")
             this.setState({ typ: 'user' })
         else
             this.setState({ typ: 'admin' })
@@ -123,7 +123,7 @@ class Register extends Component {
                 <Helmet>
                     <style>{'body { background-color: #F5FCFF; }'}</style>
                 </Helmet>
-                {this.state.login && this.props.username != '' && this.props.password != '' ?
+                {this.state.login && this.props.username !== '' && this.props.password !== '' ?
                     <div>
                         {this.state.typ === 'user' ?
                             <Redirect to='/sdashboard' />
@@ -148,7 +148,7 @@ class Register extends Component {
                         <br />
                       
                         <br />
-                        {this.state.typ == 'user' ?
+                        {this.state.typ === 'user' ?
                             <div>
                                 {this.state.cp ?
                                     <div>

@@ -1,0 +1,41 @@
+.LogoutBtn{
+  position: fixed;
+  width: 100px;
+  height: 36px;
+  right: 36px;
+  top: 36px; 
+  border-radius: 2px;
+  margin-left: 1050px
+}
+.box{
+  box-sizing: border-box;
+  border-color: black
+}
+.block-example {
+  width: 6rem;
+  height: 2rem;
+  background-color: #eee;
+  display: inline-block;
+}
+.player-wrapper {
+  position: relative;
+  padding-top: 56.25% /* Player ratio: 100 / (1280 / 720) */
+}
+.new{
+    display:none;
+}
+#top-menu .sub-menu  {
+  font-size: 20px;
+}
+.react-player {
+  position: absolute;
+  top: 0;
+  margin-left: 450px;
+  left: 10;
+}
+.default{
+    position: absolute;
+    top:220px;
+    margin-left:450px;
+    margin-bottom: 100px
+}
