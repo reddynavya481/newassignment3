@@ -1,7 +1,18 @@
 import React, { useState } from 'react'
-
-function Register1() {
-  let login = false
+import { Input, Button } from 'antd'
+import 'antd/dist/antd.css';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Redirect, BrowserRouter, Link, Switch, Route } from 'react-router-dom'
+import axios from 'axios'
+import { Radio } from 'antd';
+import { Form } from 'antd';
+import { Helmet } from 'react-helmet';
+import Dashboard from '../Dashboard/Adashboard'
+import SDashboard from '../Dashboard/Sdashboard1'
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
+function Register1(props) {
+  let login1 = false
   const [typ, setTyp] = useState('user')
   const [login, setLogin] = useState(false)
   const [cp, setCp] = useState(false)
@@ -20,17 +31,17 @@ function Register1() {
     props.handleUser(typ)
   }
 
-  toggleAdmin = () => {
+  const toggleAdmin = () => {
     setTyp('user')
     props.handleUser(typ)
   }
 
-  onRegister = () => {
+  const onRegister = () => {
     if (!cp)
       setCp(true)
     else {
       if (props.password !== pass) {
-        login = false
+        login1 = false
         setLogin(false)
         NotificationManager.error('passwords did not matched')
       }
@@ -41,7 +52,7 @@ function Register1() {
           url = 'http://localhost:8000/registeruser'
         }
         if (props.password === "" && props.username === "") {
-          login = false
+          login1 = false
           NotificationManager.warning('Enter Credentials', '', 500);
           setLogin(false)
         }
@@ -67,10 +78,10 @@ function Register1() {
       }
     }
   }
-  handleCnPassword = (e) => {
+  const handleCnPassword = (e) => {
     setPass(e.target.value)
   }
-  onLogin = () => {
+  const onLogin = () => {
     setCp(false)
     props.handleUser(typ)
     let lurl
@@ -86,16 +97,16 @@ function Register1() {
     })
       .then(function (response) {
         setLogin(true)
-        login = true
+        login1 = true
         NotificationManager.success('login successful!')
       }).catch(err => {
         console.log(err)
       })
     setPass('')
   }
-  handleLogout = () => {
+  const handleLogout = () => {
     props.onLogout()
-    login = false
+    login1 = false
     setLogin(false)
   }
   return (
@@ -103,20 +114,26 @@ function Register1() {
       <Helmet>
         <style>{'body { background-color: #F5FCFF; }'}</style>
       </Helmet>
-      {login && props.username !== '' && props.password !== '' ?
+      {login1 && props.username !== '' && props.password !== '' ?
         <div>
           {typ === 'user' ?
             <Redirect to='/sdashboard' />
             : <Redirect to='/dashboard' />}
           <Switch>
-            <Route path='/sdashboard'><SDashboard logout={() => handleLogout()} /></Route>
-            <Route path='/dashboard'><Dashboard logout={() => handleLogout()} /></Route>
+            <Route path='/sdashboard'>
+            { console.log("heyloo")}
+            <SDashboard logout={() => handleLogout()} />
+            </Route>
+            <Route path='/dashboard'>
+            { console.log("heyloo")}
+            <Dashboard logout={() => handleLogout()} />
+            </Route>
           </Switch></div>
         :
         <div>
           <h1>WAL Course Library</h1>
           <h2>Choose Account Type</h2>
-          <Radio.Group onChange={() => onChange()} defaultValue="u" size="large" style={{ marginRight: 10, height: 50 }}>
+          <Radio.Group onChange={(e) => onChange(e)} defaultValue="u" size="large" style={{ marginRight: 10, height: 50 }}>
             <Radio.Button value="a">
               <UserOutlined />Admin
             </Radio.Button>
@@ -151,22 +168,22 @@ function Register1() {
 
                     <Form.Item label="Confirm Password"
                       hasFeedback style={{ width: '39%', marginRight: 69 }}
-                      validateStatus={this.props.password !== this.state.pass ? "error" : null} >
+                      validateStatus={props.password !== pass ? "error" : null} >
                       <Input.Password type="text"
                         placeholder="confirm password"
                         size="large"
                         onChange={(e) => handleCnPassword(e)}
-                        value={this.state.pass} />
+                        value={pass} />
                     </Form.Item>
 
                   </div>
                   <Button type="primary"
-                    onClick={(e) => onRegister(typ)}
+                    onClick={() => onRegister()}
                     htmlType="submit"
                     style={{ width: 100 }}>Register</Button><br />
 
                   <Link type="default"
-                    onClick={(e) => onLogin(typ)} >Have an account?Log in</Link><br /></div> :
+                    onClick={() => onLogin()} >Have an account?Log in</Link><br /></div> :
                 <div>
                   <div>
                     <Input type="text"
@@ -175,7 +192,7 @@ function Register1() {
                       prefix={<UserOutlined />}
                       onChange={(e) => props.handleUserName(e.target.value)}
                       style={{ width: '30%' }}
-                      value={username} /><br /><br />
+                      value={props.username} /><br /><br />
 
                     <Input.Password type="text"
                       placeholder="enter password"
@@ -187,12 +204,12 @@ function Register1() {
                   </div><br />
 
                   <Button type="primary"
-                    onClick={(e) => onLogin(this.state.typ)}
+                    onClick={() => onLogin(typ)}
                     htmlType="submit"
                     style={{ width: 100 }}>Log in</Button><br />
 
                   <Link type="default"
-                    onClick={(e) => onRegister(typ)} >Don't have an account?Register</Link><br /></div>
+                    onClick={() => onRegister(typ)} >Don't have an account?Register</Link><br /></div>
               }
               <br />
               <br />
