@@ -4,6 +4,8 @@ import 'antd/dist/antd.css';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import axios from 'axios'
 import './Topics.css'
+import ReactPlayer from 'react-player'
+import {connect} from 'react-redux'
 import Acontent from '../Content/Acontent1'
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
@@ -73,6 +75,7 @@ function Atopics1(props) {
   }
   const handleContenturl = (e) => {
     setContenturl(e.target.value)
+    props.onSetUrl(e.target.value)
   }
   const handleButtonClick = (val) => {
     setTopicName(val)
@@ -112,7 +115,7 @@ function Atopics1(props) {
       }).catch(err => {
         console.log(err)
       })
-  }, [refresh, props.coursename])
+  }, [refresh, props.contenturl1,props.coursename])
   let arr
   if (display) {
     arr = display.map((item, index) => {
@@ -176,7 +179,15 @@ function Atopics1(props) {
           </Modal>
           {display ?
             <div>
-              <div>{arr}</div>
+              <div>{arr}
+              <div className="player-wrapper">
+          <ReactPlayer
+            className="react-player"
+            url={props.contenturl1}
+            width="50%"
+            height="50%"
+            controls={true}
+          /></div></div>
             </div>
             : null
           }</div>}
@@ -184,5 +195,21 @@ function Atopics1(props) {
     </div>
   )
 }
+const mapStateToProps = (state) => {
+  return {
+    contenturl1: state.course.urli,
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    get onSetUrl() {
+      return (value) =>
+        dispatch({
+          type: 'SETURL',
+          payload: value
+        })
+    },
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Atopics1)
 
-export default Atopics1

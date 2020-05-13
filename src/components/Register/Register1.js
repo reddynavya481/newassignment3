@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Input, Button } from 'antd'
 import 'antd/dist/antd.css';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { Redirect, BrowserRouter, Link, Switch, Route } from 'react-router-dom'
+import { Redirect,Link, Switch, Route } from 'react-router-dom'
 import axios from 'axios'
 import { Radio } from 'antd';
 import { Form } from 'antd';
@@ -12,13 +12,10 @@ import SDashboard from '../Dashboard/Sdashboard1'
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 function Register1(props) {
-  let login1 = false
   const [typ, setTyp] = useState('user')
   const [login, setLogin] = useState(false)
   const [cp, setCp] = useState(false)
   const [pass, setPass] = useState('')
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const onChange = (e) => {
     if (e.target.value === "u")
       setTyp('user')
@@ -26,22 +23,11 @@ function Register1(props) {
       setTyp('admin')
   }
 
-  const toggleUser = () => {
-    setTyp('admin')
-    props.handleUser(typ)
-  }
-
-  const toggleAdmin = () => {
-    setTyp('user')
-    props.handleUser(typ)
-  }
-
   const onRegister = () => {
     if (!cp)
       setCp(true)
     else {
       if (props.password !== pass) {
-        login1 = false
         setLogin(false)
         NotificationManager.error('passwords did not matched')
       }
@@ -52,7 +38,6 @@ function Register1(props) {
           url = 'http://localhost:8000/registeruser'
         }
         if (props.password === "" && props.username === "") {
-          login1 = false
           NotificationManager.warning('Enter Credentials', '', 500);
           setLogin(false)
         }
@@ -67,8 +52,6 @@ function Register1(props) {
           })
             .catch(err => {
               console.log(err)
-              setUsername('')
-              setPassword('')
               NotificationManager.error('Username already exists!,Try to Login')
             })
         }
@@ -97,7 +80,6 @@ function Register1(props) {
     })
       .then(function (response) {
         setLogin(true)
-        login1 = true
         NotificationManager.success('login successful!')
       }).catch(err => {
         console.log(err)
@@ -106,7 +88,6 @@ function Register1(props) {
   }
   const handleLogout = () => {
     props.onLogout()
-    login1 = false
     setLogin(false)
   }
   return (
@@ -114,18 +95,18 @@ function Register1(props) {
       <Helmet>
         <style>{'body { background-color: #F5FCFF; }'}</style>
       </Helmet>
-      {login1 && props.username !== '' && props.password !== '' ?
+      {login && props.username !== '' && props.password !== '' ?
+      
         <div>
-          {typ === 'user' ?
+          {typ ==='user' ?
             <Redirect to='/sdashboard' />
             : <Redirect to='/dashboard' />}
           <Switch>
-            <Route path='/sdashboard'>
-            { console.log("heyloo")}
+            <Route path='/sdashboard'> 
             <SDashboard logout={() => handleLogout()} />
             </Route>
             <Route path='/dashboard'>
-            { console.log("heyloo")}
+            
             <Dashboard logout={() => handleLogout()} />
             </Route>
           </Switch></div>

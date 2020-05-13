@@ -24,7 +24,16 @@
 #top-menu .sub-menu  {
   font-size: 20px;
 }
-
+.react-player {
+  position: absolute;
+  top: 0;
+  margin-left: 450px;
+  left: 10;
+}
+.player-wrapper {
+  position: relative;
+  padding-top: 56.25% /* Player ratio: 100 / (1280 / 720) */
+}
 .default{
     position: absolute;
     top:220px;

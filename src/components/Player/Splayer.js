@@ -1,7 +1,6 @@
 import React from 'react'
 import './Player.css'
 import ReactPlayer from 'react-player'
-
 function Splayer(props) {
   let arr
   arr = <div className="player-wrapper">
@@ -17,4 +16,6 @@ function Splayer(props) {
     arr
   )
 }
-export default Splayer
+
+
+export default Splayer;

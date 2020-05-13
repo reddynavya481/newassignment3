@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Menu } from 'antd'
 import 'antd/dist/antd.css';
+import {connect} from 'react-redux'
 import axios from 'axios'
+import ReactPlayer from 'react-player'
 import Scontent from '../Content/Scontent1'
 const { SubMenu } = Menu;
 function Stopics1(props) {
@@ -15,7 +17,7 @@ function Stopics1(props) {
       }).catch(err => {
         console.log(err)
       })
-  })
+  },[props.contenturl,props.coursename])
   let arr
   if (display) {
     arr = display.map((item, index) => {
@@ -38,11 +40,37 @@ function Stopics1(props) {
       {display ?
         <div>
           <div >{arr}</div>
+          <div className="player-wrapper">
+            <ReactPlayer
+              className="react-player"
+              url={props.contenturl}
+              width="50%"
+              height="50%"
+              controls={true}
+            /></div>
         </div>
         : null
       }
     </div>
   )
 }
+const mapStateToProps = (state) => {
+  return {
+    contenturl: state.course.urli,
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    get onSetUrl() {
+      return (value) =>
+        dispatch({
+          type: 'SETURL',
+          payload: value
+        })
+    },
+  }
 
-export default Stopics1
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Stopics1)
+
+

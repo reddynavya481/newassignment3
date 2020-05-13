@@ -1,37 +1,31 @@
 import React, { useState, useEffect } from 'react'
-import { Menu } from 'antd'
+import { Menu,Button } from 'antd'
 import 'antd/dist/antd.css';
 import { DeleteOutlined } from '@ant-design/icons';
 import axios from 'axios'
 import './Content.css'
-import Splayer from '../Player/Splayer'
 import { NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
-
+import { connect } from 'react-redux'
 function Acontent1(props) {
-
-  const [contenturl, setContenturl] = useState('')
-  const [player, setPlayer] = useState(false)
   const [content, setContent] = useState('')
   const [refresh, setRefresh] = useState(false)
 
   const deleteCont = (val) => {
     axios.delete("http://localhost:8000/delcont/" + val)
-    setPlayer(false)
     setRefresh(refresh => !refresh)
   }
 
   const togglehad = (val) => {
-    setPlayer(true)
-    setContenturl(val)
+    props.onSetUrl(val)
   }
 
   let arr
   if (content) {
     arr = content.map((item, index) => {
       return <div><Menu.Item
-        style={{ marginBottom: 30 }}
-        onDoubleClick={() => togglehad(item.contenturl)} >
+        style={{ marginBottom: 30 }}>
+        <Button onClick={() => togglehad(item.contenturl)}> Play</Button>
         {index + 1}.{item.contentname}
         <DeleteOutlined onClick={() => deleteCont(item.contentname)} />
       </Menu.Item></div>
@@ -53,15 +47,28 @@ function Acontent1(props) {
         {content ?
           <div>
             <div>{arr}</div>
-            {player ?
-              <div>
-                <Splayer urlp={contenturl} />
-              </div> : null}
           </div> : null}
       </div>
       <NotificationContainer />
     </div>
   )
 }
+const mapStateToProps = (state) => {
+  return {
+    contenturl: state.course.urli,
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    get onSetUrl() {
+      return (value) =>
+        dispatch({
+          type: 'SETURL',
+          payload: value
+        })
+    },
+  }
 
-export default Acontent1
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Acontent1)
+

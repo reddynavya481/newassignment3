@@ -3,15 +3,12 @@ import { Menu, Checkbox } from 'antd'
 import 'antd/dist/antd.css';
 import axios from 'axios'
 import './Content.css';
-import Splayer from '../Player/Splayer'
+import { connect } from 'react-redux'
 function Scontent1(props) {
   const [toggle, setToggle] = useState(false)
-  const [contenturl, setContenturl] = useState('')
-  const [player, setPlayer] = useState(false)
   const [content, setContent] = useState('')
   const togglehad = (val) => {
-    setPlayer(true)
-    setContenturl(val)
+    props.onSetUrl(val)
     setToggle(false)
   }
   const onChange = (e) => {
@@ -42,20 +39,33 @@ function Scontent1(props) {
       .catch(err => {
         console.log(err)
       })
-  })
+  }, [props.contentname])
   return (
     <div>
       {content ?
         <div>
           {!toggle ?
             <div>{arr}</div> : null}
-          {player ?
-            <Splayer urlp={contenturl} />
-            : null}
         </div>
         : null}
     </div>
   )
 }
+const mapStateToProps = (state) => {
+  return {
+    contenturl: state.course.urli,
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    get onSetUrl() {
+      return (value) =>
+        dispatch({
+          type: 'SETURL',
+          payload: value
+        })
+    },
+  }
 
-export default Scontent1
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Scontent1)

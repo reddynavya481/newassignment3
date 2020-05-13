@@ -28,14 +28,14 @@
   font-size: 20px;
 }
 .react-player {
-  position: absolute;
+  position: fixed;
   top: 0;
   margin-left: 450px;
   left: 10;
 }
 .default{
     position: absolute;
-    top:220px;
+    /* top:100px; */
     margin-left:450px;
     margin-bottom: 100px
 }

@@ -141,11 +141,11 @@ function Adashboard(props) {
         onCancel={() => handleCancel()}
       >
         <label>add course name</label>
-        <Input type="text" onChange={() => courseName()} />
+        <Input type="text" onChange={(e) => courseName(e)} />
         <label>add author name</label>
-        <Input type="text" onChange={() => authorName()} />
+        <Input type="text" onChange={(e) => authorName(e)} />
         <label>Add description</label>
-        <TextArea rows={4} onChange={() => Description()} />
+        <TextArea rows={4} onChange={(e) => Description(e)} />
       </Modal>
       <Modal
         title="Edit Course"
