@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import Register from '../components/Register/Register'
+import Register from '../components/Register/Register1'
 const mapStateToProps = (state) => {
     console.log(state)
     return {

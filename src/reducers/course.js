@@ -25,6 +25,11 @@ export default (state = initialState, action) => {
             username:'',
             password:''
         }
+        case 'SETURL':
+        return{
+            ...state,
+            urli:action.payload
+        }
         case  'SET_USER':
         return{
             ...state,
