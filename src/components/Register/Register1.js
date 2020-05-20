@@ -47,7 +47,6 @@ function Register1(props) {
             password: props.password,
             typ: props.typ
           }).then(function (response) {
-            console.log(response);
             NotificationManager.success('New account created!')
           })
             .catch(err => {

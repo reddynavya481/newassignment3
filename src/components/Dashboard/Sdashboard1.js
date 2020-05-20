@@ -25,7 +25,6 @@ function Sdashboard1(props) {
   useEffect(() => {
     axios.get('http://localhost:8000/getcourse')
       .then(function (response) {
-        console.log(response.data)
         setDisplay(response.data.course)
       }).catch(err => {
         console.log(err)
